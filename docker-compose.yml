@@ -1,0 +1,9 @@
+version: '2'
+services:
+  dotnet-cpu-test:
+    container_name: dotnet-cpu-test
+    ports:
+      - "80:80"
+    build:
+      context: .
+      
