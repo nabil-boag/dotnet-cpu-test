@@ -1,13 +1,16 @@
-FROM node
+FROM microsoft/aspnetcore-build:2.0 AS build-env
+WORKDIR /app
 
-# Create app directory
-WORKDIR /usr/src/app
+# copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-# Bundle app source
-COPY ./application .
+# copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-RUN npm install --only=production
-
-EXPOSE 80
-CMD [ "npm", "start" ]
-
+# build runtime image
+FROM microsoft/aspnetcore:2.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "aspnetapp.dll"]

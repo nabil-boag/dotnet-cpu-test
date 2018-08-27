@@ -1,7 +1,7 @@
 version: '2'
 services:
-  dotnet-cpu-test:
-    container_name: dotnet-cpu-test
+  dotnethello:
+    container_name: dotnethello
     ports:
       - "80:80"
     build:
